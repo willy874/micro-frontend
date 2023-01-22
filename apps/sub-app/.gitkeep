@@ -1,0 +1,17 @@
+*/ui/components/*
+*/ui/pages/*
+*/ui/container/*
+*/ui/layouts/*
+*/ui/router/*
+*/ui/hooks/*
+*/core/models/*
+*/core/store/*
+*/core/contexts/*
+*/core/services/*
+*/core/commands/*
+*/core/queries/*
+*/core/event/*
+*/infra/*
+*/lib/constants/*
+*/lib/utils/*
+*/types/*

@@ -1,0 +1,7 @@
+{
+  "i18n-ally.localesPaths": [
+    "src/app/locale/langs",
+    "src/slices/shared/lib/locale/langs",
+    "src/slices/sub-slice/lib/locale/langs"
+  ]
+}
