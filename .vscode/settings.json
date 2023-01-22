@@ -57,7 +57,7 @@
     "**/.git": true,
     "**/.gitignore": true,
     "**/.svn": true,
-    "**/.DS_Store": true,
+    "**/.DS_Store": false,
     "**/.idea": true,
     "**/.vscode": false,
     "**/yarn.lock": true,
@@ -83,7 +83,7 @@
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,
-    "**/.DS_Store": true
+    "**/.DS_Store": false
   },
   "files.watcherExclude": {
     "**/.git/objects/**": true,
