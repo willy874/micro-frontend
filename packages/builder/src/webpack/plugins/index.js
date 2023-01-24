@@ -1,8 +1,7 @@
-import { resolve } from '@/utils';
-import { HtmlWebpackPlugin, MiniCssExtractPlugin, CopyPlugin } from '@/libs';
+import { HtmlWebpackPlugin, MiniCssExtractPlugin } from '@/libs';
+import getCopyPlugin from './static-copy';
 import getAssetsPlugin from './assets';
 import getDefineEnv from './define-env';
-// import getModuleFederation from './module-federation';
 import getForkTsChecker from './fork-ts-checker';
 import getESLintPlugin from './eslint';
 
@@ -21,25 +20,9 @@ export default function getPlugins(config) {
       chunkFilename: 'css/chunk.[name].[hash].css',
       runtime: false,
     }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: resolve('public'),
-          to: resolve('dist'),
-          toType: 'dir',
-          noErrorOnMissing: true,
-          globOptions: {
-            ignore: ['**/.DS_Store', resolve('public', 'index.html')],
-          },
-          info: {
-            minimized: true,
-          },
-        },
-      ],
-    }),
+    getCopyPlugin(),
     getAssetsPlugin(config),
     getDefineEnv(config),
-    // getModuleFederation(config),
     getForkTsChecker(config),
     getESLintPlugin(config),
   ];

@@ -74,7 +74,6 @@
   },
   "files.exclude": {
     "**/.cache": true,
-    "**/.editorconfig": true,
     "**/.eslintcache": true,
     "**/bower_components": true,
     "**/.idea": true,
