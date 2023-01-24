@@ -10,6 +10,7 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
+  ignorePatterns: ['dist/**', 'storybook-static/**', 'node_modules/**'],
   overrides: [
     {
       files: ['**/*.{spec,test}.{j,t}s?(x)'],
