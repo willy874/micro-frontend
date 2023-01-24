@@ -1,10 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Button } from './Button';
 import './header.css';
 
-export const Header = ({ user, onLogin, onLogout, onCreateAccount }) => (
+interface UserInfo {
+  name: string;
+}
+
+interface HeaderProps {
+  user?: UserInfo;
+  onLogin?: React.MouseEventHandler;
+  onLogout?: React.MouseEventHandler;
+  onCreateAccount?: React.MouseEventHandler;
+}
+
+export const Header = ({
+  user,
+  onLogin,
+  onLogout,
+  onCreateAccount,
+}: HeaderProps) => (
   <header>
     <div className="wrapper">
       <div>
@@ -35,7 +50,8 @@ export const Header = ({ user, onLogin, onLogout, onCreateAccount }) => (
         {user ? (
           <>
             <span className="welcome">
-              Welcome, <b>{JSON.stringify(user)}</b>!
+              {/* eslint-disable-next-line react/prop-types */}
+              Welcome, <b>{user.name}</b>!
             </span>
             <Button size="small" onClick={onLogout} label="Log out" />
           </>
