@@ -1,10 +1,12 @@
 import { container } from 'webpack';
+import { getCwdPackage } from '@/utils';
 
 /**
  * @param {Webpack.ParamConfig} param
  * @returns {import('webpack').container.ModuleFederationPlugin}
  */
-export default function getModuleFederation({ app, packageJson }) {
+export default function getModuleFederation({ app }) {
+  const packageJson = getCwdPackage();
   return new container.ModuleFederationPlugin({
     name: app.name,
     filename: 'remoteEntry.js',

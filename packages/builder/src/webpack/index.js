@@ -1,15 +1,22 @@
 import getDevServe from './server';
 import getPlugins from './plugins';
 import getModuleLoaders from './modules';
-import { resolve } from '@/utils';
-import { getConfig } from '@/config';
+import { resolve, getNextEmptyPort } from '@/utils';
 
 /**
+ * @param {Webpack.ParamConfig} [config]
  * @returns {Promise<Webpack.Configuration>}
  */
-export default async function getWebpackWorkingConfig() {
-  const config = await getConfig();
+export default async function getWebpackWorkingConfig(config) {
   const { mode, isDev, isServer } = config;
+
+  // 嘗試連接
+  if (isServer) {
+    const emptyPort = await getNextEmptyPort(config.app.port, config.app.host);
+    if (emptyPort !== config.app.port) {
+      config.app.port = emptyPort;
+    }
+  }
 
   return {
     entry: {

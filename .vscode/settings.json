@@ -93,5 +93,8 @@
     "**/bower_components/**": true,
     "**/dist/**": true,
     "**/yarn.lock": true
-  }
+  },
+  "cSpell.words": [
+    "microapprc"
+  ]
 }

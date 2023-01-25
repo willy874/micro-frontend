@@ -1,12 +1,14 @@
-/** @typedef {Webpack.Configuration | ((env: NodeJS.ProcessEnv, argv: string[]) => Webpack.Configuration) | ((env: NodeJS.ProcessEnv, argv: string[]) => Promise<Webpack.Configuration>)} WebpackConfiguration */
+/** @typedef {Webpack.ConfigurationHandler} ConfigurationHandler */
 import { merge } from '@/libs';
 import getWebpackWorkingConfig from './webpack';
+import { getConfig } from '@/config';
+import { getCwdWebpack } from '@/utils';
 
 /**
- * @param {WebpackConfiguration} config
- * @returns {Promise<Webpack.Configuration> | Webpack.Configuration}
+ * @param {ConfigurationHandler} config
+ * @returns {Promise<Webpack.Configuration>}
  */
-function resolveWebpackConfig(config) {
+async function resolveWebpackConfig(config) {
   if (typeof config === 'function') {
     return config(process.env, process.argv);
   } else {
@@ -16,21 +18,15 @@ function resolveWebpackConfig(config) {
 
 /**
  *
- * @param {WebpackConfiguration} config
+ * @param {ConfigurationHandler} [config]
  * @returns {Promise<Webpack.Configuration>}
  */
 export async function builder(config) {
-  const workingConfig = await getWebpackWorkingConfig();
+  const workingConfig = await getWebpackWorkingConfig(getConfig());
+  const resolveConfig = await resolveWebpackConfig(config || getCwdWebpack());
   return new Promise((resolve, reject) => {
     try {
-      const cof = resolveWebpackConfig(config);
-      if ('then' in cof) {
-        cof.then((c) => {
-          merge(workingConfig, c);
-        });
-      } else {
-        resolve(merge(workingConfig, cof));
-      }
+      resolve(merge(workingConfig, resolveConfig));
     } catch (error) {
       reject(error);
     }

@@ -2,20 +2,10 @@
 /** @typedef {import('webpack').Configuration} Configuration */
 const Webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const fs = require('fs');
-const path = require('path');
-const { builder } = require('../dist/cjs/main');
-
-function getCmdWebpack() {
-  const webpackPath = path.resolve(process.cwd(), 'webpack.config.js');
-  if (fs.existsSync(webpackPath)) {
-    return require(webpackPath);
-  }
-  throw new Error(`Path: ${webpackPath} \nThe webpack.config is not define.`);
-}
+const { builder, ConsoleColors } = require('../dist/cjs/main');
 
 async function bootstrap() {
-  const webpackConfig = await builder(getCmdWebpack());
+  const webpackConfig = await builder();
   if (webpackConfig.devServer) {
     const compiler = Webpack(webpackConfig);
     const devServerOptions = { ...webpackConfig.devServer };
@@ -28,9 +18,13 @@ async function bootstrap() {
   } else {
     Webpack(webpackConfig, (error, stats) => {
       if (error) {
-        console.log(error);
+        console.log(
+          `${ConsoleColors.FgRed}${error.message}${ConsoleColors.Reset}`
+        );
       } else {
-        console.log('Builder end.');
+        console.log(
+          `${ConsoleColors.FgGreen}Build success!${ConsoleColors.Reset}`
+        );
         console.log(Object.prototype.toString.call(stats));
       }
     });
