@@ -1,3 +1,4 @@
+import type { Webpack } from '@/types'
 import { ForkTsCheckerWebpackPlugin, resolvePlugin } from '@/libs';
 import { resolve, currentWorkingDirectory } from '@/utils';
 
@@ -5,7 +6,7 @@ import { resolve, currentWorkingDirectory } from '@/utils';
  * @param {Webpack.ParamConfig} param
  * @returns {ForkTsCheckerWebpackPlugin}
  */
-export default function getForkTsChecker({ isDev }) {
+export default function getForkTsChecker({ isDev }: Webpack.ParamConfig) {
   return new ForkTsCheckerWebpackPlugin({
     async: isDev,
     typescript: {

@@ -6,5 +6,5 @@ export { default as CopyPlugin } from 'copy-webpack-plugin';
 export { default as AssetsPlugin } from 'assets-webpack-plugin';
 export { default as ESLintPlugin } from 'eslint-webpack-plugin';
 export { default as resolvePlugin } from 'resolve';
-export { default as ForkTsCheckerWebpackPlugin } from 'react-dev-utils/ForkTsCheckerWebpackPlugin';
+export { default as ForkTsCheckerWebpackPlugin } from 'fork-ts-checker-webpack-plugin';
 export { default as getCSSModuleLocalIdent } from 'react-dev-utils/getCSSModuleLocalIdent';

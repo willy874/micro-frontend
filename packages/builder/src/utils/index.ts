@@ -1,10 +1,9 @@
-/** @typedef {import('webpack').Configuration} Configuration */
-/** @typedef {Record<string, string | string[] | true | undefined> & { _nodePath: string; _binPath: string; }} ArgvParams */
 import path from 'path';
 import fs from 'fs';
 import http from 'http';
 import packageJson from '../../package.json';
 import { merge, dotenv } from '@/libs';
+type ArgvParams = Record<string, string | string[] | true | undefined> & { _nodePath: string; _binPath: string; }
 
 const [nodePath, binPath, ...args] = process.argv;
 
@@ -48,17 +47,17 @@ export const ConsoleColors = {
  * @param  {...string} args
  * @returns {string}
  */
-export function resolve(...args) {
+export function resolve(...args: string[]) {
   return path.resolve(currentWorkingDirectory, ...args);
 }
 
-let argvCache = null;
+let argvCache: ArgvParams | null = null;
 
 /**
  * @param {boolean} [reload]
  * @returns {ArgvParams}
  */
-export function getArgv(reload) {
+export function getArgv(reload?: boolean) {
   if (argvCache && !reload) {
     return argvCache;
   }
@@ -69,8 +68,8 @@ export function getArgv(reload) {
     _binPath,
   };
   /** @type {string[]} */
-  let value = [];
-  let k;
+  let value: string[] = [];
+  let k = '';
   for (let i = 0; i < args.length; i++) {
     const param = args[i];
     const next = args[i + 1];
@@ -110,9 +109,9 @@ export function getArgv(reload) {
  * @param {string[]} params
  * @returns {string}
  */
-export function getArgvString(...params) {
+export function getArgvString(...params: string[]) {
   const argv = getArgv();
-  const value = argv[params.find((p) => argv[p])];
+  const value = argv[params.find((p) => argv[p]) || ''];
   if (typeof value === 'string') {
     return value;
   }
@@ -127,9 +126,9 @@ export function getArgvString(...params) {
  * @param {string[]} params
  * @returns {string | null}
  */
-export function getArgvPath(...params) {
+export function getArgvPath(...params: string[]) {
   const argv = getArgv();
-  let argvPath = argv[params.find((p) => argv[p])];
+  let argvPath = argv[params.find((p) => argv[p]) || ''];
   let resolvePath = '';
   if (typeof argvPath === 'string') {
     resolvePath = resolve(argvPath);
@@ -151,9 +150,9 @@ export function getArgvPath(...params) {
  * @param {string[]} params
  * @returns {string | null}
  */
-export function getEnvPath(...params) {
-  const envPath = process.env[params.find((p) => process.env[p])];
-  const resolvePath = resolve(envPath);
+export function getEnvPath(...params: string[]) {
+  const envPath = process.env[params.find((p) => process.env[p]) || ''];
+  const resolvePath = resolve(envPath || '');
   if (fs.existsSync(resolvePath)) {
     return resolvePath;
   }
@@ -164,7 +163,7 @@ export function getEnvPath(...params) {
  * @param {string[]} params
  * @returns {string | null}
  */
-export function getFilePath(...params) {
+export function getFilePath(...params: string[]) {
   const filePath = params.find((p) => fs.existsSync(resolve(p)));
   if (filePath) {
     return resolve(filePath);
@@ -180,12 +179,19 @@ export function getFilePath(...params) {
  * @property {string[]} file
  */
 
+interface PathOptions {
+  src?: string;
+  env: string[];
+  argv: string[];
+  file: string[];
+}
+
 /**
  * @param {PathOptions} options
  */
-export function getPathSrc(options) {
-  let source = options.src;
-  if (fs.existsSync(resolve(source))) {
+export function getPathSrc(options: PathOptions) {
+  let source: string | null = options.src || null;
+  if (source && fs.existsSync(resolve(source))) {
     return resolve(source);
   }
   source = getArgvPath(...options.argv);
@@ -201,7 +207,7 @@ export function getPathSrc(options) {
  * @param {string} src
  * @return {object}
  */
-export function readFileSync(src) {
+export function readFileSync(src: string) {
   if (fs.existsSync(src)) {
     throw new Error(
       `${ConsoleColors.FgRed}The path ${ConsoleColors.FgBlue}${src}${ConsoleColors.Reset} is not define!${ConsoleColors.Reset}`
@@ -221,7 +227,7 @@ export function readFileSync(src) {
   return fs.readFileSync(src);
 }
 
-let envCache = null;
+let envCache: object | null = null;
 
 /**
  * @param {string} [src]
@@ -231,7 +237,7 @@ let envCache = null;
  * * 執行腳本時帶入 `-e <path>` or `-env <path>`，可指定 env 路徑"
  * * 設定腳本環境變數 `ENV_PATH=<path>` 指定 env 文字檔案
  */
-export function getEnv(src, reload) {
+export function getEnv(src?: string, reload?: boolean) {
   if (envCache && !reload) {
     return envCache;
   }
@@ -241,7 +247,7 @@ export function getEnv(src, reload) {
     argv: ['env', 'e'],
     file: ['.env'],
   });
-  envCache = merge(process.env, dotenv.parse(readFileSync(source)));
+  envCache = merge(process.env, dotenv.parse(readFileSync(source || '')));
   return envCache;
 }
 
@@ -252,7 +258,7 @@ export function getEnv(src, reload) {
  * * 執行腳本時帶入 `-config <path>` or `-c <path>`，可指定 config 路徑"
  * * 設定腳本環境變數 `APP_CONFIG_PATH=<path>` 指定 config 檔案
  */
-export function getAppConfigSrc(src) {
+export function getAppConfigSrc(src: string) {
   const source = getPathSrc({
     src,
     env: ['APP_CONFIG_PATH'],
@@ -264,7 +270,7 @@ export function getAppConfigSrc(src) {
       'microapp.config.json',
     ],
   });
-  return readFileSync(source);
+  return readFileSync(source || '');
 }
 
 /**
@@ -291,23 +297,24 @@ export function getCwdWebpack() {
 
 /**
  * @param {number} port
- * @param {string} host
+ * @param {string} hostname
  * @returns {Promise<number>}
  */
-export function getNextEmptyPort(port, host = '127.0.0.1') {
+export function getNextEmptyPort(port: number, hostname = '127.0.0.1'): Promise<number> {
+  let retryCount = 0
   return new Promise((resolve, reject) => {
     const server = http.createServer();
-    server.listen(port, host, (err) => {
-      if (err instanceof Error) {
-        if ('code' in err && err.code === 'EADDRINUSE') {
-          resolve(getNextEmptyPort(++port, host));
-        } else {
-          reject(err);
-        }
+    server.on('error', (err) => {
+      if (retryCount > 10) {
+        reject(err);
       } else {
-        server.close();
-        resolve(port);
+        retryCount++
+        resolve(getNextEmptyPort(++port, hostname));
       }
+    })
+    server.listen({ port, hostname }, () => {
+      server.close();
+      resolve(port);
     });
   });
 }

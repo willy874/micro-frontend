@@ -1,8 +1,12 @@
 import path from 'path';
+import fs from 'fs';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import alias from '@rollup/plugin-alias';
+import typescript from 'rollup-plugin-typescript';
+import dts from 'rollup-plugin-dts';
+import esbuild from 'rollup-plugin-esbuild';
 
 const plugins = [
   json(),
@@ -10,28 +14,30 @@ const plugins = [
     preferBuiltins: true,
     mainFields: ['browser'],
   }),
-  commonjs(),
+  commonjs({
+    include: /node_modules/,
+    ignore: ['bufferutil', 'utf-8-validate'],
+    requireReturnsDefault: 'auto',
+  }),
+  esbuild(),
+  typescript(),
   alias({
     entries: [{ find: '@', replacement: path.resolve(process.cwd(), 'src') }],
   }),
 ];
 
+const packageJson = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), 'package.json')).toString()
+);
+
 const external = [
-  'webpack',
-  'dotenv',
-  'html-webpack-plugin',
-  'mini-css-extract-plugin',
-  'copy-webpack-plugin',
-  'assets-webpack-plugin',
-  'eslint-webpack-plugin',
-  'resolve',
-  'react-dev-utils/ForkTsCheckerWebpackPlugin',
-  'react-dev-utils/getCSSModuleLocalIdent',
+  ...Object.keys(packageJson.dependencies),
+  'fork-ts-checker-webpack-plugin',
 ];
 
 export default [
   {
-    input: 'src/main.js',
+    input: 'src/main.ts',
     output: {
       dir: 'dist/esm',
       format: 'esm',
@@ -40,12 +46,21 @@ export default [
     external,
   },
   {
-    input: 'src/main.js',
+    input: 'src/main.ts',
     output: {
       dir: 'dist/cjs',
       format: 'cjs',
     },
     plugins,
+    external,
+  },
+  {
+    input: 'src/main.ts',
+    output: {
+      file: 'dist/types.d.ts',
+      format: 'es',
+    },
+    plugins: [dts()],
     external,
   },
 ];

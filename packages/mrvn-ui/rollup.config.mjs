@@ -6,6 +6,7 @@ import json from '@rollup/plugin-json';
 import alias from '@rollup/plugin-alias';
 import typescript from 'rollup-plugin-typescript';
 import dts from 'rollup-plugin-dts';
+import esbuild from 'rollup-plugin-esbuild';
 
 const plugins = [
   image(),
@@ -16,6 +17,7 @@ const plugins = [
   }),
   json(),
   typescript(),
+  esbuild(),
 ];
 const external = [];
 

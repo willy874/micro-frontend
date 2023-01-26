@@ -1,3 +1,4 @@
+import type { Webpack } from '@/types'
 import { HtmlWebpackPlugin, MiniCssExtractPlugin } from '@/libs';
 import getCopyPlugin from './static-copy';
 import getAssetsPlugin from './assets';
@@ -7,9 +8,9 @@ import getESLintPlugin from './eslint';
 
 /**
  * @param {Webpack.ParamConfig} config
- * @returns {Webpack.Plugin[]}
+ * @returns {Webpack.WebpackPluginInstance[]}
  */
-export default function getPlugins(config) {
+export default function getPlugins(config: Webpack.ParamConfig) {
   return [
     new HtmlWebpackPlugin({
       template: './public/index.html',

@@ -1,5 +1,8 @@
+import type { Webpack } from '@/types'
 import { getCSSModuleLocalIdent, MiniCssExtractPlugin } from '@/libs';
 import { resolve } from '@/utils';
+
+type StyleLoadersType = 'css' | 'icss' | 'module'
 
 /**
  * @param {'css' | 'icss' | 'module'} type
@@ -7,7 +10,7 @@ import { resolve } from '@/utils';
  * @param {Webpack.RuleSetRule | Webpack.RuleSetRule[]} [preProcessor]
  * @returns {Webpack.RuleSetRule[]}
  */
-const getStyleLoaders = (type, config, preProcessor) => {
+const getStyleLoaders = (type: StyleLoadersType, config: Webpack.ParamConfig, preProcessor: Webpack.RuleSetRule | Webpack.RuleSetRule[]) => {
   const { isDev } = config;
   /** @type {Webpack.RuleSetRule[]} */
   const loaders = [];
@@ -89,7 +92,7 @@ const getStyleLoaders = (type, config, preProcessor) => {
  * @param {Webpack.ParamConfig} config
  * @returns {Webpack.RuleSetRule[]}
  */
-export default function getCssLoaders(config) {
+export default function getCssLoaders(config: Webpack.ParamConfig) {
   return [
     {
       test: /\.(scss|sass|css)$/,

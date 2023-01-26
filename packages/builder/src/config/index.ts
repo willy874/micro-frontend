@@ -1,4 +1,3 @@
-/** @typedef {import('dotenv').DotenvParseOutput} DotenvParseOutput */
 import { getArgv, getEnv } from '@/utils';
 import { getHost, getPort } from './env';
 
@@ -17,7 +16,7 @@ import { getHost, getPort } from './env';
 
 /**
  * @typedef {Object} WebpackParamConfig
- * @property {DotenvParseOutput} env
+ * @property {import('dotenv').DotenvParseOutput} env
  * @property {"development" | "production"} mode
  * @property {boolean} isDev
  * @property {boolean} isProd
@@ -32,19 +31,16 @@ import { getHost, getPort } from './env';
 export function getConfig() {
   const argv = getArgv();
   const env = getEnv();
-  const isServer = Boolean(argv['serve']);
   const mode = env['NODE_ENV'] || 'production';
-  const host = getHost();
-  const port = getPort();
   return {
     env,
     mode,
     isDev: mode === 'development',
     isProd: mode === 'production',
-    isServer,
+    isServer: Boolean(argv['serve']),
     app: {
-      port,
-      host,
+      host: getHost(),
+      port: getPort(),
       name: env['APP_NAME'],
     },
     remoteModules: {},

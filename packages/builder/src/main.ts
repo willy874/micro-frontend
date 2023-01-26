@@ -1,14 +1,13 @@
-/** @typedef {Webpack.ConfigurationHandler} ConfigurationHandler */
 import { merge } from '@/libs';
 import getWebpackWorkingConfig from './webpack';
 import { getConfig } from '@/config';
 import { getCwdWebpack } from '@/utils';
 
 /**
- * @param {ConfigurationHandler} config
+ * @param {Webpack.ConfigurationHandler} config
  * @returns {Promise<Webpack.Configuration>}
  */
-async function resolveWebpackConfig(config) {
+async function resolveWebpackConfig(config: any) {
   if (typeof config === 'function') {
     return config(process.env, process.argv);
   } else {
@@ -17,16 +16,15 @@ async function resolveWebpackConfig(config) {
 }
 
 /**
- *
- * @param {ConfigurationHandler} [config]
+ * @param {Webpack.ConfigurationHandler} [config]
  * @returns {Promise<Webpack.Configuration>}
  */
-export async function builder(config) {
+export async function builder(config: any) {
   const workingConfig = await getWebpackWorkingConfig(getConfig());
   const resolveConfig = await resolveWebpackConfig(config || getCwdWebpack());
   return new Promise((resolve, reject) => {
     try {
-      resolve(merge(workingConfig, resolveConfig));
+      resolve(merge<any>(workingConfig, resolveConfig));
     } catch (error) {
       reject(error);
     }
@@ -34,3 +32,4 @@ export async function builder(config) {
 }
 
 export * from './utils';
+export * from './types'

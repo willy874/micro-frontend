@@ -1,3 +1,4 @@
+import type { Webpack } from '@/types'
 import getDevServe from './server';
 import getPlugins from './plugins';
 import getModuleLoaders from './modules';
@@ -7,7 +8,7 @@ import { resolve, getNextEmptyPort } from '@/utils';
  * @param {Webpack.ParamConfig} [config]
  * @returns {Promise<Webpack.Configuration>}
  */
-export default async function getWebpackWorkingConfig(config) {
+export default async function getWebpackWorkingConfig(config: Webpack.ParamConfig): Promise<Webpack.Configuration> {
   const { mode, isDev, isServer } = config;
 
   // 嘗試連接

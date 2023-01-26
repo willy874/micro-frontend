@@ -1,3 +1,4 @@
+import type { Webpack } from '@/types'
 import { DefinePlugin } from 'webpack';
 
 /**
@@ -7,7 +8,7 @@ import { DefinePlugin } from 'webpack';
  * - 可以解析字串曝露到瀏覽器環境
  * - 使用 `APP_ENV_` 前綴可直接在 `.env` 進行解析
  */
-export default function getDefineEnv({ mode, env }) {
+export default function getDefineEnv({ mode, env }: Webpack.ParamConfig) {
   const exposeEnv = {
     NODE_ENV: mode,
   };
