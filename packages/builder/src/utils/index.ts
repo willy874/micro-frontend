@@ -3,6 +3,7 @@ import fs from 'fs';
 import http from 'http';
 import packageJson from '../../package.json';
 import { merge, dotenv } from '@/libs';
+import { Webpack } from '@/types';
 type ArgvParams = Record<string, string | string[] | true | undefined> & { _nodePath: string; _binPath: string; }
 
 const [nodePath, binPath, ...args] = process.argv;
@@ -49,6 +50,14 @@ export const ConsoleColors = {
  */
 export function resolve(...args: string[]) {
   return path.resolve(currentWorkingDirectory, ...args);
+}
+
+/**
+ * @param {string} src 
+ * @return {boolean}
+ */
+export function isFile(src: string) {
+  return fs.existsSync(src) && fs.statSync(src).isFile()
 }
 
 let argvCache: ArgvParams | null = null;
@@ -140,7 +149,7 @@ export function getArgvPath(...params: string[]) {
     const [value] = argvPath;
     resolvePath = resolve(value);
   }
-  if (fs.existsSync(resolvePath)) {
+  if (isFile(resolvePath)) {
     return resolvePath;
   }
   return null;
@@ -153,7 +162,7 @@ export function getArgvPath(...params: string[]) {
 export function getEnvPath(...params: string[]) {
   const envPath = process.env[params.find((p) => process.env[p]) || ''];
   const resolvePath = resolve(envPath || '');
-  if (fs.existsSync(resolvePath)) {
+  if (isFile(resolvePath)) {
     return resolvePath;
   }
   return null;
@@ -164,13 +173,13 @@ export function getEnvPath(...params: string[]) {
  * @returns {string | null}
  */
 export function getFilePath(...params: string[]) {
-  const filePath = params.find((p) => fs.existsSync(resolve(p)));
+  const filePath = params.find((p) => isFile(resolve(p)));
   if (filePath) {
     return resolve(filePath);
   }
   return null;
 }
-
+process.cwd
 /**
  * @typedef {Object} PathOptions
  * @property {string} src
@@ -191,7 +200,7 @@ interface PathOptions {
  */
 export function getPathSrc(options: PathOptions) {
   let source: string | null = options.src || null;
-  if (source && fs.existsSync(resolve(source))) {
+  if (source && isFile(resolve(source))) {
     return resolve(source);
   }
   source = getArgvPath(...options.argv);
@@ -208,9 +217,9 @@ export function getPathSrc(options: PathOptions) {
  * @return {object}
  */
 export function readFileSync(src: string) {
-  if (fs.existsSync(src)) {
+  if (!isFile(src)) {
     throw new Error(
-      `${ConsoleColors.FgRed}The path ${ConsoleColors.FgBlue}${src}${ConsoleColors.Reset} is not define!${ConsoleColors.Reset}`
+      `${ConsoleColors.FgRed}The path ${ConsoleColors.FgBlue}${src}${ConsoleColors.FgRed} is not define!${ConsoleColors.Reset}`
     );
   }
   if (/\.(c|m)?js$/.test(src)) {
@@ -258,7 +267,7 @@ export function getEnv(src?: string, reload?: boolean) {
  * * 執行腳本時帶入 `-config <path>` or `-c <path>`，可指定 config 路徑"
  * * 設定腳本環境變數 `APP_CONFIG_PATH=<path>` 指定 config 檔案
  */
-export function getAppConfigSrc(src: string) {
+export function getAppConfigSrc<T = any>(src: string): T {
   const source = getPathSrc({
     src,
     env: ['APP_CONFIG_PATH'],
@@ -278,18 +287,18 @@ export function getAppConfigSrc(src: string) {
  */
 export function getCwdPackage() {
   const packagePath = path.resolve(process.cwd(), 'package.json');
-  if (fs.existsSync(packagePath)) {
+  if (isFile(packagePath)) {
     return readFileSync(packagePath);
   }
   throw new Error(`Path: ${packagePath} \nThe package.json is not define.`);
 }
 
 /**
- * @return {Configuration | ((env: any, argv: any) => Configuration)}
+ * @return {Webpack.ConfigurationHandler}
  */
-export function getCwdWebpack() {
+export function getCwdWebpack(): Webpack.ConfigurationHandler {
   const webpackPath = path.resolve(process.cwd(), 'webpack.config.js');
-  if (fs.existsSync(webpackPath)) {
+  if (isFile(webpackPath)) {
     return readFileSync(webpackPath);
   }
   throw new Error(`Path: ${webpackPath} \nThe webpack.config is not define.`);
@@ -300,12 +309,12 @@ export function getCwdWebpack() {
  * @param {string} hostname
  * @returns {Promise<number>}
  */
-export function getNextEmptyPort(port: number, hostname = '127.0.0.1'): Promise<number> {
+export function getNextEmptyPort(port: number, hostname = '127.0.0.1', limit = 10): Promise<number> {
   let retryCount = 0
   return new Promise((resolve, reject) => {
     const server = http.createServer();
     server.on('error', (err) => {
-      if (retryCount > 10) {
+      if (retryCount > limit) {
         reject(err);
       } else {
         retryCount++

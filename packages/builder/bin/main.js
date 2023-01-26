@@ -2,7 +2,7 @@
 /** @typedef {import('webpack').Configuration} Configuration */
 const Webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const { builder, ConsoleColors } = require('../dist/cjs/main');
+const { builder, ConsoleColors } = require('builder');
 
 async function bootstrap() {
   const webpackConfig = await builder();
@@ -16,7 +16,7 @@ async function bootstrap() {
     };
     await runServer();
   } else {
-    Webpack(webpackConfig, (error, stats) => {
+    Webpack(webpackConfig, (error) => {
       if (error) {
         console.log(
           `${ConsoleColors.FgRed}${error.message}${ConsoleColors.Reset}`
@@ -25,7 +25,6 @@ async function bootstrap() {
         console.log(
           `${ConsoleColors.FgGreen}Build success!${ConsoleColors.Reset}`
         );
-        console.log(Object.prototype.toString.call(stats));
       }
     });
   }

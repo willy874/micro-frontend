@@ -30,10 +30,7 @@ const packageJson = JSON.parse(
   fs.readFileSync(path.join(process.cwd(), 'package.json')).toString()
 );
 
-const external = [
-  ...Object.keys(packageJson.dependencies),
-  'fork-ts-checker-webpack-plugin',
-];
+const external = [...Object.keys(packageJson.dependencies || {})];
 
 export default [
   {

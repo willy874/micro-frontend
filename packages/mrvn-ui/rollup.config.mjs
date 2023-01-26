@@ -1,6 +1,6 @@
+import fs from 'fs';
 import path from 'path';
 import image from '@rollup/plugin-image';
-import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import alias from '@rollup/plugin-alias';
@@ -10,16 +10,24 @@ import esbuild from 'rollup-plugin-esbuild';
 
 const plugins = [
   image(),
-  resolve(),
-  commonjs({ include: ['node_modules/**'] }),
+  commonjs({
+    include: /node_modules/,
+    ignore: ['bufferutil', 'utf-8-validate'],
+    requireReturnsDefault: 'auto',
+  }),
+  json(),
   alias({
     entries: [{ find: '@', replacement: path.resolve(process.cwd(), 'src') }],
   }),
-  json(),
   typescript(),
   esbuild(),
 ];
-const external = [];
+
+const packageJson = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), 'package.json')).toString()
+);
+
+const external = [...Object.keys(packageJson.dependencies || {})];
 
 const exportModules = [
   {
