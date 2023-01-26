@@ -9,7 +9,8 @@
     "typeRoots": [
       "node_modules/@types",
       "../../node_modules/@types",
-      "src/types"
+      "src/types",
+      "types"
     ],
     "paths": {
       "@/*": ["src/*"]
@@ -22,7 +23,8 @@
     "src/**/**/*.d.ts",
     "tests/*.ts",
     "tests/*.d.ts",
-    "tests/*.tsx"
+    "tests/*.tsx",
+    "types/*.d.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }

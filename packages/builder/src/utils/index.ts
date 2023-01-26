@@ -256,7 +256,7 @@ export function getEnv(src?: string, reload?: boolean) {
     argv: ['env', 'e'],
     file: ['.env'],
   });
-  envCache = merge(process.env, dotenv.parse(readFileSync(source || '')));
+  envCache = merge<Record<string, string | undefined>>(process.env, dotenv.parse(readFileSync(source || '') ));
   return envCache;
 }
 

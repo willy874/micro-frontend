@@ -1,5 +1,5 @@
 {
-  "name": "builder",
+  "name": "micro-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,13 +8,7 @@
   },
   "author": "",
   "license": "ISC",
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
-  "engines": {
-    "node": ">=16.14.0",
-    "npm": ">=8.3.1"
-  },
-  "dependencies": {}
+  "devDependencies": {
+    "ts-jest": "^29.0.5"
+  }
 }

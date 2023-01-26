@@ -10,18 +10,12 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
-  ignorePatterns: ['dist/**', 'storybook-static/**', 'node_modules/**'],
+  ignorePatterns: ['dist/**', 'node_modules/**'],
   overrides: [
     {
       files: ['**/*.{spec,test}.{j,t}s?(x)'],
       env: {
         jest: true,
-      },
-    },
-    {
-      files: ['.storybook/**/*.(c|m)?js'],
-      env: {
-        node: true,
       },
     },
     {
@@ -35,5 +29,8 @@ module.exports = {
     react: {
       version: 'detect',
     },
+  },
+  rules: {
+    'import/no-anonymous-default-export': 'off',
   },
 };
