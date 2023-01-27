@@ -23,16 +23,16 @@ export default async function getWebpackWorkingConfig(config: Webpack.ParamConfi
     entry: {
       app: resolve('src', 'main.ts'),
     },
-    mode,
+    mode: mode === 'production' || mode === 'production' ? mode : 'none',
     devtool: isDev ? 'cheap-module-source-map' : false,
     output: {
       clean: false,
       publicPath: 'auto',
       hashFunction: 'xxhash64',
       path: resolve('dist'),
-      filename: 'js/entry.[name].[hash].js',
-      chunkFilename: 'js/chunk.[name].[hash].js',
-      assetModuleFilename: 'images/[hash][ext]',
+      filename: 'js/entry.[name].[fullhash].js',
+      chunkFilename: 'js/chunk.[name].[fullhash].js',
+      assetModuleFilename: 'images/[fullhash][ext]',
     },
     devServer: isServer ? getDevServe(config) : undefined,
     module: {

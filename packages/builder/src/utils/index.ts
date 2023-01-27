@@ -179,7 +179,7 @@ export function getFilePath(...params: string[]) {
   }
   return null;
 }
-process.cwd
+
 /**
  * @typedef {Object} PathOptions
  * @property {string} src
@@ -280,6 +280,17 @@ export function getAppConfigSrc<T = any>(src: string): T {
     ],
   });
   return readFileSync(source || '');
+}
+
+/**
+ * @returns {"development" | "production"}
+ */
+export function getMode() {
+  const env = getEnv()
+  const mode = getArgvString('mode', 'm') || env['NODE_ENV']
+  if (mode === 'development') return 'development'
+  if (mode === 'production') return 'production'
+  return 'none';
 }
 
 /**

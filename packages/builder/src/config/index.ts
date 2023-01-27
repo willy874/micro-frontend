@@ -1,4 +1,4 @@
-import { getArgv, getEnv } from '@/utils';
+import { getArgv, getEnv, getMode, ConsoleColors } from '@/utils';
 import { getHost, getPort } from './env';
 
 /**
@@ -31,7 +31,8 @@ import { getHost, getPort } from './env';
 export function getConfig() {
   const argv = getArgv();
   const env = getEnv();
-  const mode = env['NODE_ENV'] || 'production';
+  const mode = getMode();
+  console.log(`${ConsoleColors.FgYellow}The ${mode} mode.${ConsoleColors.Reset}`);
   return {
     env,
     mode,

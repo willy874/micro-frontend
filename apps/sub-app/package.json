@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack",
-    "watch": "cross-env NODE_ENV=development webpack --watch",
-    "serve": "cross-env NODE_ENV=development webpack serve",
-    "start": "cross-env NODE_ENV=development webpack serve --open",
-    "build": "cross-env NODE_ENV=production webpack",
+    "dev": "npx builder -mode development",
+    "serve": "npx builder -mode development -serve",
+    "start": "npx builder -mode development -serve --open",
+    "build": "npx builder -mode production",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint . --fix"
