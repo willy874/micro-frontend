@@ -1,3 +1,7 @@
-const test = {};
+import { lazy } from 'react';
 
-export { test };
+const ConfigProvider = lazy(async () => ({
+  default: (await import('antd')).ConfigProvider,
+}));
+
+export { ConfigProvider };

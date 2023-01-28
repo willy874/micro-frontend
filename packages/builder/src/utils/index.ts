@@ -274,8 +274,13 @@ export function getAppConfigSrc<T = any>(src: string): T {
     argv: ['config', 'c'],
     file: [
       '.microapprc',
+      '.microapprc.js',
+      '.microapprc.mjs',
+      '.microapprc.cjs',
+      '.microapprc.json',
       'microapp.config.js',
       'microapp.config.mjs',
+      'microapp.config.cjs',
       'microapp.config.json',
     ],
   });

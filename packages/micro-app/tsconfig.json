@@ -16,7 +16,7 @@
       "@/*": ["src/*"]
     },
   },
-  "extends": "../builder/config/typescript",
+  "extends": "../configuration/typescript",
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",

@@ -32,7 +32,7 @@ export default async function getWebpackWorkingConfig(config: Webpack.ParamConfi
       path: resolve('dist'),
       filename: 'js/entry.[name].[fullhash].js',
       chunkFilename: 'js/chunk.[name].[fullhash].js',
-      assetModuleFilename: 'images/[fullhash][ext]',
+      assetModuleFilename: 'assets/[fullhash][ext]',
     },
     devServer: isServer ? getDevServe(config) : undefined,
     module: {

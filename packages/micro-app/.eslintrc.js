@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [require.resolve('builder/config/eslint')],
+  extends: [require.resolve('configuration/eslint.react')],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',

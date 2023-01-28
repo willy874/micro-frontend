@@ -38,7 +38,8 @@
     "@types/react-dom": "^18.0.9",
     "builder": "*",
     "jest": "^29.3.1",
-    "jest-environment-jsdom": "^29.3.1"
+    "jest-environment-jsdom": "^29.3.1",
+    "webpack-cli": "^5.0.1"
   },
   "browserslist": {
     "production": [

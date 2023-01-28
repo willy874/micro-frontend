@@ -3,7 +3,7 @@ module.exports = {
     node: true,
     es2021: true,
   },
-  extends: ['eslint:recommended', 'prettier', 'plugin:prettier/recommended'],
+  extends: [require.resolve('configuration/eslint.base')],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
