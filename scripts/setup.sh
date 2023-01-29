@@ -52,8 +52,6 @@ function use_node_16() {
 }
 
 function install_root() {
-  git submodule init
-  git submodule update
   use_node_16
   npm ci
 }

@@ -5,16 +5,14 @@ const WebpackDevServer = require('webpack-dev-server');
 const { builder, ConsoleColors } = require('builder');
 
 async function bootstrap() {
+  console.log('Starting build...');
   const webpackConfig = await builder();
   if (webpackConfig.devServer) {
     const compiler = Webpack(webpackConfig);
     const devServerOptions = { ...webpackConfig.devServer };
     const server = new WebpackDevServer(devServerOptions, compiler);
-    const runServer = async () => {
-      console.log('Starting server...');
-      await server.start();
-    };
-    await runServer();
+    console.log('Starting server...');
+    await server.start();
   } else {
     Webpack(webpackConfig, (error) => {
       if (error) {
