@@ -1,0 +1,92 @@
+{
+  "folders": [
+    {
+      "name": "root",
+      "path": ".."
+    },
+    {
+      "name": "sub-app",
+      "path": "../apps/sub-app"
+    },
+    {
+      "name": "mrvn",
+      "path": "../apps/mrvn"
+    }
+  ],
+  "settings": {
+    "eslint.alwaysShowStatus": true,
+    "jest.disabledWorkspaceFolders": ["root", "mrvn"],
+    "path-intellisense.absolutePathToWorkspace": true,
+    "path-intellisense.mappings": {
+      "@": "${workspaceRoot}/apps/**/src"
+    },
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.fixAll.stylelint": true
+    },
+    "eslint.workingDirectories": ["/apps"],
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/*.log": true,
+      "**/*.log*": true,
+      "**/bower_components": true,
+      "**/dist": true,
+      "**/elehukouben": true,
+      "**/.git": true,
+      "**/.gitignore": true,
+      "**/.svn": true,
+      "**/.DS_Store": true,
+      "**/.idea": true,
+      "**/.vscode": false,
+      "**/yarn.lock": true,
+      "**/tmp": true,
+      "out": true,
+      "dist": true,
+      "node_modules": true,
+      "CHANGELOG.md": true,
+      "examples": true,
+      "res": true,
+      "screenshots": true,
+      "yarn-error.log": true,
+      "**/.yarn": true
+    },
+    "files.exclude": {
+      "**/.cache": true,
+      "**/.editorconfig": true,
+      "**/.eslintcache": true,
+      "**/bower_components": true,
+      "**/.idea": true,
+      "**/tmp": true,
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true
+    },
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/.vscode/**": true,
+      "**/node_modules/**": true,
+      "**/tmp/**": true,
+      "**/bower_components/**": true,
+      "**/dist/**": true,
+      "**/yarn.lock": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "rvest.vs-code-prettier-eslint",
+      "streetsidesoftware.code-spell-checker",
+      "Lokalise.i18n-ally",
+      "bierner.markdown-mermaid",
+      "Orta.vscode-jest",
+      "rvest.vs-code-prettier-eslint"
+    ]
+  }
+}

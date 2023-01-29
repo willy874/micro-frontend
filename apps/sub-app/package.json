@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx builder -mode development",
-    "serve": "npx builder -mode development -serve",
-    "start": "npx builder -mode development -serve --open",
-    "build": "npx builder -mode production",
+    "dev": "npx app-cli -mode development",
+    "serve": "npx app-cli -mode development -serve",
+    "start": "npx app-cli -mode development -serve --open",
+    "build": "npx app-cli -mode production",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint . --fix"
@@ -28,8 +28,9 @@
     "web-vitals": "^3.1.0"
   },
   "devDependencies": {
+    "app-cli": "*",
     "builder": "*",
-    "configuration": "*",
+    "framework": "*",
     "@swc/jest": "^0.2.24",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

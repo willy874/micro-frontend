@@ -19,7 +19,6 @@
   },
   "author": "",
   "license": "ISC",
-  "bin": "./bin/main.js",
   "files": [
     "bin",
     "config",

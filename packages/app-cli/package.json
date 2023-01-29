@@ -1,0 +1,38 @@
+{
+  "name": "app-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./bin/main.js",
+  "scripts": {
+    "bin": "node bin/main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "bin": "./bin/main.js",
+  "files": [
+    "bin",
+    "package.json"
+  ],
+  "dependencies": {
+    "builder": "*"
+  },
+  "devDependencies": {
+    "configuration": "*"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=16.14.0",
+    "npm": ">=8.3.1"
+  }
+}
