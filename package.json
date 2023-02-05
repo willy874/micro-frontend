@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run dev -w @micro-app/builder && npm run dev -w @micro-app/framework && npm run dev -w @micro-app/sub-app"
+    "dev": "npm run dev -w @micro-app/builder && npm run dev -w @micro-app/framework && npm run dev -w @micro-app/sub-app && npm i"
   },
   "author": "",
   "license": "ISC",
@@ -15,7 +15,7 @@
   ],
   "engines": {
     "node": ">=16.14.0",
-    "npm": ">=8.3.1"
+    "npm": ">=7.24.2"
   },
   "dependencies": {
     "lodash": "^4.17.21",

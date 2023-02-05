@@ -36,7 +36,11 @@ const packageJson = JSON.parse(
   fs.readFileSync(resolve('package.json')).toString()
 );
 
-const external = [...Object.keys(packageJson.dependencies || {})];
+const external = [
+  'react-dom/client',
+  'react/jsx-runtime',
+  ...Object.keys(packageJson.dependencies || {}),
+];
 
 export default [
   {

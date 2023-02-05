@@ -2,6 +2,7 @@ import type { PortalContext } from './portal';
 import type { ApplicationContext } from './application';
 
 export interface AppElement extends HTMLElement {
+  appName: string;
   app: any;
   head: HTMLElement;
   body: HTMLElement;

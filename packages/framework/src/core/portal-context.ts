@@ -1,11 +1,7 @@
 import type { LocaleInfo, UserInfo } from './contexts';
-import {
-  HttpInterface,
-  PortalContext as PortalContextImpl,
-  PortalStore,
-} from './contexts/portal';
+import { HttpInterface, PortalContext, PortalStore } from './contexts/portal';
 
-export function getDefaultPortalContext(): PortalContextImpl {
+export function getDefaultPortalContext(): PortalContext {
   const store = getDefaultPortalStore();
   return {
     store,
@@ -58,7 +54,7 @@ export function getDefaultPortalStore(): PortalStore {
 
 const defaultPortalContext = getDefaultPortalContext();
 
-export class PortalContext implements PortalContextImpl {
+export class BasePortalContext implements PortalContext {
   store!: PortalStore;
 
   getCurrentLocale() {

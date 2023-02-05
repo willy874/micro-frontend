@@ -5,7 +5,7 @@ import { Locale } from '@/lib';
 import {
   Router,
   Route,
-  ApplicationContext as ApplicationContextImpl,
+  ApplicationContext,
   ApplicationShared,
   InitOptionInstance,
   InitInstance,
@@ -26,7 +26,7 @@ export class ApplicationRouter implements Router {
   }
 }
 
-export class ApplicationContext implements ApplicationContextImpl {
+export class BaseApplicationContext implements ApplicationContext {
   private slices: Map<string, SliceContext> = new Map();
   private bindings: Map<any, DefaultBinding<any>> = new Map();
   isSelf!: boolean;
@@ -84,5 +84,5 @@ export class ApplicationContext implements ApplicationContextImpl {
 }
 
 export function getDefaultApplicationContext() {
-  return new ApplicationContext();
+  return new BaseApplicationContext();
 }

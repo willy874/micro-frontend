@@ -56,7 +56,7 @@ export type InitOptionInstance = {
 export interface ApplicationContext {
   readonly isSelf?: boolean;
   readonly shared: ApplicationShared;
-  init(portal: PortalContext): void;
+  init(portal: PortalContext, props: DOMStringMap): void;
   use(initInstance: InitOptionInstance): ApplicationContext;
   use<T>(initInstance: InitInstance<T>, options: T): ApplicationContext;
   registerRouter(route: Route[]): void;

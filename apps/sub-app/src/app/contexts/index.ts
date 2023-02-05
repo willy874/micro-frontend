@@ -1,5 +1,7 @@
+import { createContext } from '@micro-app/framework';
 import { initTranslation } from '../locale';
-import { SharedSliceContext, BaseApplicationContext } from '@micro-app/framework';
+import { BaseApplicationContext } from '@micro-app/framework';
+import { SharedSliceContext } from '@/slices/shared';
 import { SubSliceContext } from '@/slices/sub-slice';
 
 export class ApplicationContext extends BaseApplicationContext {
@@ -27,3 +29,5 @@ export class ApplicationContext extends BaseApplicationContext {
     return this.shared.portal.checkUserPermission(action);
   }
 }
+
+export const [AppCtx, AppCtxProvider] = createContext<ApplicationContext>();

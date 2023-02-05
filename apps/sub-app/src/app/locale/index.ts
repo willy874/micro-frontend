@@ -1,4 +1,5 @@
 import { reaction } from 'mobx';
+import { ApplicationContext, LocaleInfo } from '@micro-app/framework';
 import { Languages, LocaleNamespace } from '@/slices/shared';
 import enUsResource from './langs/en-US.json';
 import jaJpResource from './langs/ja-JP.json';
@@ -6,7 +7,7 @@ import zhTwResource from './langs/zh-TW.json';
 import zhCnResource from './langs/zh-CN.json';
 
 export const initTranslation = {
-  init(application: Core.ApplicationContext, portalLocale?: Core.LocaleInfo) {
+  init(application: ApplicationContext, portalLocale?: LocaleInfo) {
     const { locale, portal } = application.shared;
     if (portalLocale) {
       // reactive locale

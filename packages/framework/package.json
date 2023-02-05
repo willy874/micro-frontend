@@ -4,6 +4,14 @@
   "private": true,
   "description": "",
   "main": "index.js",
+  "types": "./dist/types.d.ts",
+  "typesVersions": {
+    ">=0.0.0": {
+      "*": [
+        "./dist/types.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "dev": "rollup -c",
     "watch": "rollup -c --watch"
