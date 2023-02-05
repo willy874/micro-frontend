@@ -1,5 +1,5 @@
 import type { EventBus, Subscription } from '@/core/services';
-import type { EventName, EventSubscriber } from '@/core/models';
+import type { EventName, EventSubscriber } from '@/core/models/events';
 
 /**
  * Default implementation of <code>EventBus</code>.

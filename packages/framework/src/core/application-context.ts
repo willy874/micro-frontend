@@ -5,18 +5,17 @@ import { Locale } from '@/lib';
 import {
   Router,
   Route,
-  ApplicationContext,
+  ApplicationContext as ApplicationContextImpl,
   ApplicationShared,
   InitOptionInstance,
   InitInstance,
   SliceContext,
   PortalContext,
-  getDefaultPortalContext,
 } from './contexts';
 import { QUERY_BUS_TYPE, COMMAND_BUS_TYPE, EVENT_BUS_TYPE } from './services';
 import { DefaultBinding, Binding, BindingMap, BindingName } from './binding';
 import { Constructor } from './utils';
-import NoteStore from './store/Note';
+import { getDefaultPortalContext } from './portal-context';
 
 export class ApplicationRouter implements Router {
   basename = '';
@@ -27,18 +26,18 @@ export class ApplicationRouter implements Router {
   }
 }
 
-export class BaseApplicationContext implements ApplicationContext {
+export class ApplicationContext implements ApplicationContextImpl {
   private slices: Map<string, SliceContext> = new Map();
   private bindings: Map<any, DefaultBinding<any>> = new Map();
   isSelf!: boolean;
-  readonly shared: ApplicationShared = {
-    portal: getDefaultPortalContext(),
-    router: new ApplicationRouter(),
-    locale: new Locale(),
-    note: {} as NoteStore,
-  };
+  readonly shared: ApplicationShared;
 
   constructor() {
+    this.shared = {
+      portal: getDefaultPortalContext(),
+      router: new ApplicationRouter(),
+      locale: new Locale(),
+    };
     this.bind(QUERY_BUS_TYPE).toValue(new QueryBusImpl());
     this.bind(COMMAND_BUS_TYPE).toValue(new CommandBusImpl());
     this.bind(EVENT_BUS_TYPE).toValue(new EventBusImpl());
@@ -82,4 +81,8 @@ export class BaseApplicationContext implements ApplicationContext {
     }
     throw new Error(`No binding found for ${String(name)}`);
   }
+}
+
+export function getDefaultApplicationContext() {
+  return new ApplicationContext();
 }

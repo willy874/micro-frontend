@@ -1,6 +1,7 @@
 {
-  "name": "sub-app",
+  "name": "@micro-app/sub-app",
   "version": "1.0.0",
+  "private": "true",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -28,9 +29,9 @@
     "web-vitals": "^3.1.0"
   },
   "devDependencies": {
-    "app-cli": "*",
-    "builder": "*",
-    "framework": "*",
+    "@micro-app/app-cli": "*",
+    "@micro-app/builder": "*",
+    "@micro-app/framework": "*",
     "@swc/jest": "^0.2.24",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -41,6 +42,7 @@
     "@types/react-dom": "^18.0.9",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.3.1",
+    "sass": "~1.3",
     "webpack-cli": "^5.0.1"
   },
   "browserslist": {

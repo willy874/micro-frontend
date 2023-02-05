@@ -9,7 +9,7 @@ import getJsLoaders from './js-loaders';
  */
 export default function getModuleLoaders(config: Webpack.ParamConfig) {
   return [
-    ...getJsLoaders(),
+    ...getJsLoaders(config),
     {
       oneOf: [...getAssetLoaders(), ...getCssLoaders(config)],
     },

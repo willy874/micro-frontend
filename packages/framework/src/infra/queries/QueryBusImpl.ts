@@ -1,5 +1,9 @@
 import type { QueryHandler, QueryBus } from '@/core/services';
-import type { QueryName, QueryInputs, QueryOutputs } from '@/core/models';
+import type {
+  QueryName,
+  QueryInputs,
+  QueryOutputs,
+} from '@/core/models/queries';
 
 export default class QueryBusImpl implements QueryBus {
   private handlerMap: Map<QueryName, QueryHandler<QueryName>> = new Map();

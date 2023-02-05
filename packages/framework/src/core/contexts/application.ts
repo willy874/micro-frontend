@@ -1,7 +1,6 @@
 import type { BindingName, Binding, BindingMap } from '../services/binding';
 import type { Locale } from '@/lib';
 import type { PortalContext } from './portal';
-import type { NoteStore } from '../store';
 
 export type Router = {
   basename: string;
@@ -43,7 +42,6 @@ export interface ApplicationShared {
   router: Router;
   portal: PortalContext;
   locale: Locale;
-  note: NoteStore;
   [key: string]: unknown;
 }
 

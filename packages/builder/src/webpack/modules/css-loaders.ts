@@ -1,6 +1,5 @@
 import type { Webpack } from '@/types'
 import { getCSSModuleLocalIdent, MiniCssExtractPlugin } from '@/libs';
-import { resolve } from '@/utils';
 
 type StyleLoadersType = 'css' | 'icss' | 'module'
 
@@ -12,11 +11,10 @@ type StyleLoadersType = 'css' | 'icss' | 'module'
  */
 const getStyleLoaders = (type: StyleLoadersType, config: Webpack.ParamConfig, preProcessor: Webpack.RuleSetRule | Webpack.RuleSetRule[]) => {
   const { isDev } = config;
-  /** @type {Webpack.RuleSetRule[]} */
-  const loaders = [];
+  const loaders: Webpack.RuleSetRule[] = [];
   if (type === 'css') {
     loaders.push({
-      loader: 'style-loader',
+      loader: require.resolve('style-loader'),
     });
   }
   loaders.push({
@@ -24,7 +22,7 @@ const getStyleLoaders = (type: StyleLoadersType, config: Webpack.ParamConfig, pr
   });
   if (type === 'module') {
     loaders.push({
-      loader: 'css-loader',
+      loader: require.resolve('css-loader'),
       options: {
         sourceMap: isDev,
         modules: {
@@ -36,7 +34,7 @@ const getStyleLoaders = (type: StyleLoadersType, config: Webpack.ParamConfig, pr
   }
   if (type === 'icss') {
     loaders.push({
-      loader: 'css-loader',
+      loader: require.resolve('css-loader'),
       options: {
         sourceMap: isDev,
         modules: {
@@ -46,15 +44,16 @@ const getStyleLoaders = (type: StyleLoadersType, config: Webpack.ParamConfig, pr
     });
   }
   loaders.push({
-    loader: 'postcss-loader',
+    loader: require.resolve('postcss-loader'),
     options: {
+      implementation: require.resolve('postcss'),
       postcssOptions: {
-        ident: 'postcss',
+        ident: require.resolve('postcss'),
         config: false,
         plugins: [
-          'postcss-flexbugs-fixes',
+          require.resolve('postcss-flexbugs-fixes'),
           [
-            'postcss-preset-env',
+            require.resolve('postcss-preset-env'),
             {
               autoprefixer: {
                 flexbox: 'no-2009',
@@ -62,22 +61,13 @@ const getStyleLoaders = (type: StyleLoadersType, config: Webpack.ParamConfig, pr
               stage: 3,
             },
           ],
-          'postcss-normalize',
+          require.resolve('postcss-normalize'),
         ],
       },
       sourceMap: isDev,
     },
   });
-  /**
-   * `~ = options.root`
-   */
-  loaders.push({
-    loader: 'resolve-url-loader',
-    options: {
-      sourceMap: isDev,
-      root: resolve('src'),
-    },
-  });
+  
   if (preProcessor) {
     if (Array.isArray(preProcessor)) {
       loaders.push(...preProcessor);
@@ -98,15 +88,21 @@ export default function getCssLoaders(config: Webpack.ParamConfig) {
       test: /\.(scss|sass|css)$/,
       exclude: /\.module\.(scss|sass|css)$/,
       use: getStyleLoaders('icss', config, {
-        loader: 'sass-loader',
+        loader: require.resolve('sass-loader'),
+        options: {
+          implementation: require.resolve('sass'),
+        },
       }),
       sideEffects: true,
     },
     {
       test: /\.module\.(scss|sass|css)$/,
       use: getStyleLoaders('module', config, {
-        loader: 'sass-loader',
-      }),
+        loader: require.resolve('sass-loader'),
+        options: {
+          implementation: require.resolve('sass'),
+        },
+      })
     },
   ];
 }

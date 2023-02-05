@@ -1,30 +1,29 @@
-const webpack = require('webpack');
-const packageFile = require('./package.json');
+const webpack = require("webpack");
+const packageFile = require("./package.json");
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
   plugins: [
     new webpack.container.ModuleFederationPlugin({
-      name: 'sub_app',
-      filename: 'remoteEntry.js',
+      name: "sub_app",
+      filename: "remoteEntry.js",
       library: {
-        type: 'var',
-        name: 'sub_app',
+        type: "var",
+        name: "sub_app",
       },
       exposes: {
-        './app': './src/export.ts',
-        './web-components': './src/web-components.ts',
+        "./app": "./src/export.ts",
+        "./web-components": "./src/web-components.ts",
       },
-      remotes: ['shared_app'],
       shared: {
         ...packageFile.dependencies,
         react: {
           singleton: true,
-          requiredVersion: packageFile.dependencies['react'],
+          requiredVersion: packageFile.dependencies["react"],
         },
-        'react-dom': {
+        "react-dom": {
           singleton: true,
-          requiredVersion: packageFile.dependencies['react-dom'],
+          requiredVersion: packageFile.dependencies["react-dom"],
         },
       },
     }),

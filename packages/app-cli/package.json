@@ -1,6 +1,7 @@
 {
-  "name": "app-cli",
+  "name": "@micro-app/app-cli",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "./bin/main.js",
   "scripts": {
@@ -14,10 +15,10 @@
     "package.json"
   ],
   "dependencies": {
-    "builder": "*"
+    "@micro-app/builder": "*"
   },
   "devDependencies": {
-    "configuration": "*"
+    "@micro-app/configuration": "*"
   },
   "browserslist": {
     "production": [

@@ -21,7 +21,7 @@ export default function getESLintPlugin({ isDev }: Webpack.ParamConfig) {
     cwd: currentWorkingDirectory,
     resolvePluginsRelativeTo: __dirname,
     baseConfig: {
-      extends: [require.resolve('eslint-config-react-app/base')],
+      extends: [require.resolve('@micro-app/configuration/eslint.react')],
     },
   });
 }

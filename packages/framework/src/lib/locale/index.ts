@@ -25,6 +25,7 @@ import {
   APP_LOCALE_MAP,
   DEFAULT_LANG,
 } from './constants';
+import { ApplicationContext, LocaleResourceLanguage } from '@/core';
 
 export * from './constants';
 
@@ -109,7 +110,7 @@ export class Locale {
   }
 
   addResources(
-    resources: object | Core.LocaleResourceLanguage,
+    resources: object | LocaleResourceLanguage,
     deep?: boolean,
     overwrite?: boolean
   ): void;
@@ -123,7 +124,7 @@ export class Locale {
   addResources(...params: any[]) {
     if (typeof params[0] === 'object') {
       const [p, deep = true, overwrite = false] = params;
-      const resources = p as Core.LocaleResourceLanguage;
+      const resources = p as LocaleResourceLanguage;
       for (const lang in resources) {
         const langSrc = resources[lang];
         for (const ns in langSrc) {
@@ -180,7 +181,7 @@ export function useTranslation() {
 }
 
 export const initTranslation = {
-  init(application: Core.ApplicationContext) {
+  init(application: ApplicationContext) {
     const { locale } = application.shared;
     locale.addResources(Languages.EN_US, LocaleNamespace.UI, enUsResource);
     locale.addResources(Languages.JA_JP, LocaleNamespace.UI, jaJpResource);

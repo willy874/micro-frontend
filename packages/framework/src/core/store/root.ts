@@ -1,17 +1,21 @@
 import { ApplicationContext } from '../contexts';
-import { CommandBus, COMMAND_BUS_TYPE } from '../services';
-import LogoutHandler from '@/infra/commands/LogoutHandler';
-import NoteStore from './Note';
+import {
+  CommandBus,
+  QueryBus,
+  EventBus,
+  COMMAND_BUS_TYPE,
+  QUERY_BUS_TYPE,
+  EVENT_BUS_TYPE,
+} from '../services';
 
 export default class RootStore {
-  note: NoteStore;
   commandBus: CommandBus;
+  queryBus: QueryBus;
+  eventBus: EventBus;
 
   constructor(application: ApplicationContext) {
     this.commandBus = application.lookup(COMMAND_BUS_TYPE);
-    if (!this.commandBus.hasHandler(LogoutHandler.key)) {
-      this.commandBus.registerHandler(LogoutHandler.key, new LogoutHandler());
-    }
-    this.note = new NoteStore(this);
+    this.queryBus = application.lookup(QUERY_BUS_TYPE);
+    this.eventBus = application.lookup(EVENT_BUS_TYPE);
   }
 }

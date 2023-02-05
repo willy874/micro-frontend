@@ -3,7 +3,7 @@ module.exports = {
     node: true,
     es2021: true,
   },
-  extends: [require.resolve('configuration/eslint.base')],
+  extends: [require.resolve('@micro-app/configuration/eslint.base')],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',

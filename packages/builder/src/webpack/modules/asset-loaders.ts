@@ -16,7 +16,7 @@ export default function getAssetLoaders() {
       test: /\.svg$/,
       use: [
         {
-          loader: '@svgr/webpack',
+          loader: require.resolve('@svgr/webpack'),
           options: {
             prettier: false,
             svgo: false,
@@ -28,7 +28,7 @@ export default function getAssetLoaders() {
           },
         },
         {
-          loader: 'file-loader',
+          loader: require.resolve('file-loader'),
           options: {
             name: 'images/[ext]/[name].[hash].[ext]',
           },

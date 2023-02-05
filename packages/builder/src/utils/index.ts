@@ -2,8 +2,9 @@ import path from 'path';
 import fs from 'fs';
 import http from 'http';
 import packageJson from '../../package.json';
-import { merge, dotenv } from '@/libs';
-import { Webpack } from '@/types';
+import { merge, dotenv } from '../libs';
+import { Webpack } from '../types';
+
 type ArgvParams = Record<string, string | string[] | true | undefined> & { _nodePath: string; _binPath: string; }
 
 const [nodePath, binPath, ...args] = process.argv;
@@ -342,4 +343,30 @@ export function getNextEmptyPort(port: number, hostname = '127.0.0.1', limit = 1
       resolve(port);
     });
   });
+}
+
+function deepParentPaths(src: string, callback?: (p: string) => boolean) {
+  const getParentPath = (ps: string[], p: string, fn: (p: string) => boolean) => {
+    ps.push(p)
+    if (!fn(p)) getParentPath(ps, path.resolve(p, '..'), fn)
+    return ps
+  }
+  const checkDeep = callback || ((p) => (path.parse(p).root === p) || (p === '/'))
+  return getParentPath([], src, checkDeep)
+}
+
+
+export function requireModulePath(lib: string) {
+  const pwd = process.cwd()
+  const packageJsonPath = deepParentPaths(pwd)
+    .map(p => {
+      const packagePath = path.resolve(p, 'package.json')
+      const modulePkgPath = path.resolve(p, "node_modules", lib, "package.json")
+      return isFile(packagePath) && isFile(modulePkgPath) ? require(modulePkgPath) : false
+    })
+    .filter(Boolean)
+    .reverse()
+    .find(p => p)
+  const packageJson = readFileSync(packageJsonPath)
+  return path.resolve(packageJsonPath, packageJson.main)
 }

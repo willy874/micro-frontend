@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [require.resolve('configuration/eslint.react')],
+  extends: [require.resolve('@micro-app/configuration/eslint.base')],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -20,6 +20,12 @@ module.exports = {
     },
     {
       files: ['.storybook/**/*.(c|m)?js'],
+      env: {
+        node: true,
+      },
+    },
+    {
+      files: ['.eslintrc.js'],
       env: {
         node: true,
       },

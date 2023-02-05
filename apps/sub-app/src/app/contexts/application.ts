@@ -1,5 +1,5 @@
 import { initTranslation } from '../locale';
-import { SharedSliceContext, BaseApplicationContext } from '@/slices/shared';
+import { SharedSliceContext, BaseApplicationContext } from '@micro-app/framework';
 import { SubSliceContext } from '@/slices/sub-slice';
 
 export class ApplicationContext extends BaseApplicationContext {

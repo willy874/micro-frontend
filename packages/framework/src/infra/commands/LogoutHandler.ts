@@ -1,4 +1,4 @@
-import type { CommandName, CommandOutputs } from '@/core/models';
+import type { CommandName, CommandOutputs } from '@/core/models/commands';
 import { BaseCommandHandler } from '@/core/services';
 
 export default class LogoutHandler<

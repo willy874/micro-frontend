@@ -1,8 +1,8 @@
-import { Webpack } from '@/types';
-import { merge } from '@/libs';
+import { Webpack } from './types';
+import { merge } from './libs';
 import getWebpackWorkingConfig from './webpack';
-import { getConfig } from '@/config';
-import { getCwdWebpack } from '@/utils';
+import { getConfig } from './config';
+import { getCwdWebpack } from './utils';
 
 /**
  * @param {Webpack.ConfigurationHandler} config

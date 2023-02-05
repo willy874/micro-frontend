@@ -1,6 +1,9 @@
 import { LocaleNamespace, getInitLang } from '@/lib';
-import type { LocaleResource } from '../contexts';
-import { makeObservable, observable, action } from './mobx';
+import type {
+  LocaleResource,
+  PortalStore as PortalStoreImplements,
+} from './contexts';
+import { makeObservable, observable, action } from './store/mobx';
 
 class UserInfo {
   uid: string;
@@ -24,7 +27,7 @@ class LocaleInfo {
   }
 }
 
-export default class PortalStore implements PortalStore {
+export default class PortalStore implements PortalStoreImplements {
   locale = new LocaleInfo();
   user = new UserInfo();
 

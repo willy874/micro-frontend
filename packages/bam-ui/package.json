@@ -1,5 +1,5 @@
 {
-  "name": "bam-ui",
+  "name": "@micro-app/bam-ui",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -18,8 +18,8 @@
     "web-vitals": "^3.1.0"
   },
   "devDependencies": {
-    "builder": "*",
-    "configuration": "*",
+    "@micro-app/builder": "*",
+    "@micro-app/configuration": "*",
     "@storybook/addon-actions": "^6.5.15",
     "@storybook/addon-essentials": "^6.5.15",
     "@storybook/addon-interactions": "^6.5.15",

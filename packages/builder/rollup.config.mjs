@@ -1,16 +1,21 @@
 import path from 'path';
 import fs from 'fs';
-import resolve from '@rollup/plugin-node-resolve';
+import module from 'module';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import alias from '@rollup/plugin-alias';
-import typescript from 'rollup-plugin-typescript';
+import typescript from '@rollup/plugin-typescript';
 import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
 
+const require = module.createRequire(import.meta.url);
+
+const resolve = (...paths) => path.resolve(process.cwd(), ...paths);
+
 const plugins = [
   json(),
-  resolve({
+  nodeResolve({
     preferBuiltins: true,
     mainFields: ['browser'],
   }),
@@ -20,44 +25,51 @@ const plugins = [
     requireReturnsDefault: 'auto',
   }),
   esbuild(),
-  typescript(),
+  typescript({
+    typescript: require('typescript'),
+    tslib: require('tslib'),
+  }),
   alias({
-    entries: [{ find: '@', replacement: path.resolve(process.cwd(), 'src') }],
+    entries: [{ find: '@', replacement: resolve('src') }],
   }),
 ];
 
 const packageJson = JSON.parse(
-  fs.readFileSync(path.join(process.cwd(), 'package.json')).toString()
+  fs.readFileSync(resolve('package.json')).toString()
 );
 
 const external = [...Object.keys(packageJson.dependencies || {})];
 
 export default [
   {
-    input: 'src/main.ts',
+    input: resolve('src/main.ts'),
     output: {
-      dir: 'dist/esm',
+      file: resolve('dist/esm/main.js'),
       format: 'esm',
     },
     plugins,
     external,
   },
   {
-    input: 'src/main.ts',
+    input: resolve('src/main.ts'),
     output: {
-      dir: 'dist/cjs',
+      file: resolve('dist/cjs/main.js'),
       format: 'cjs',
     },
     plugins,
     external,
   },
   {
-    input: 'src/main.ts',
+    input: resolve('src/main.ts'),
     output: {
-      file: 'dist/types.d.ts',
+      file: resolve('dist/types.d.ts'),
       format: 'es',
     },
-    plugins: [dts()],
+    plugins: [
+      dts({
+        tsconfig: resolve('tsconfig.json'),
+      }),
+    ],
     external,
   },
 ];

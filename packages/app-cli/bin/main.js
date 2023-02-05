@@ -2,7 +2,7 @@
 /** @typedef {import('webpack').Configuration} Configuration */
 const Webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const { builder, ConsoleColors } = require('builder');
+const { builder, ConsoleColors } = require('@micro-app/builder');
 
 async function bootstrap() {
   console.log('Starting build...');

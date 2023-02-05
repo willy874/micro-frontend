@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run dev -w @micro-app/builder && npm run dev -w @micro-app/framework && npm run dev -w @micro-app/sub-app"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +20,5 @@
   "dependencies": {
     "lodash": "^4.17.21",
     "ramda": "^0.28.0"
-  },
-  "devDependencies": {}
+  }
 }

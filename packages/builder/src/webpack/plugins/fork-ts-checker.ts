@@ -1,5 +1,5 @@
 import type { Webpack } from '@/types'
-import { ForkTsCheckerWebpackPlugin, resolvePlugin } from '@/libs';
+import { ForkTsCheckerWebpackPlugin } from '@/libs';
 import { resolve, currentWorkingDirectory } from '@/utils';
 
 /**
@@ -10,9 +10,7 @@ export default function getForkTsChecker({ isDev }: Webpack.ParamConfig) {
   return new ForkTsCheckerWebpackPlugin({
     async: isDev,
     typescript: {
-      typescriptPath: resolvePlugin.sync('typescript', {
-        basedir: resolve('node_modules'),
-      }),
+      typescriptPath: require.resolve('typescript'),
       configOverwrite: {
         compilerOptions: {
           sourceMap: isDev,

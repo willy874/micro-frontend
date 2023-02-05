@@ -1,5 +1,9 @@
 import type { CommandHandler, CommandBus } from '@/core/services';
-import type { CommandName, CommandInputs, CommandOutputs } from '@/core/models';
+import type {
+  CommandName,
+  CommandInputs,
+  CommandOutputs,
+} from '@/core/models/commands';
 
 export default class CommandBusImpl implements CommandBus {
   private handlerMap: Map<CommandName, CommandHandler<CommandName>> = new Map();
